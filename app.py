@@ -40,10 +40,18 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = processRequest(req)
+    # res = processRequest(req)
 
-    res = json.dumps(res, indent=4)
+    # res = json.dumps(res, indent=4)
     # print(res)
+
+    output = "I'm a server response"
+    obj = {
+        "fulfillmentText": output
+    }
+
+    res = json.dumps(obj, indent=4)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -118,4 +126,4 @@ if __name__ == '__main__':
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=True, port=port, host='0.0.0.0')
