@@ -34,25 +34,24 @@ import handler
 # Flask app should start in global layout
 app = Flask(__name__)
 
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    # print("Request:")
+    # print(json.dumps(req, indent=4))
 
     query = req["queryResult"]["intent"]["displayName"]
     print(query)
 
-    if query == "find_doctor":
-        output = handler.find_doctor()
+    if query == "set_location":
+        obj = handler.set_location(req)
+    elif query == "set_insurance":
+        obj = handler.set_insurance(req)
     else:
-        output = "I'm a server response"    
-
-    obj = {
-        "fulfillmentText": output
-    }
+        obj = {
+            "fulfillmentText": "I'm a server response"    
+        }
 
     res = json.dumps(obj, indent=4)
     print(res)
