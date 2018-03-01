@@ -11,24 +11,6 @@ def set_location(req):
     reverse_geocode = gmaps.reverse_geocode((location["lat"], location["long"]))
     address = reverse_geocode[0]["formatted_address"]
 
-    # if fb_id in users:
-    #     if "insurance" in users[fb_id]:
-    #         return {
-    #             "fulfillmentText": "Awesome we have you. Here are some docs.",
-    #         }   
-    #     else:
-    #         return {
-    #             "fulfillmentText": "Alright, what's your insurance provider?",
-    #         }
-    # else:
-    #     users[fb_id] = {
-    #         "location": location,
-    #         "address": address
-    #     }
-    #     return {
-    #         "fulfillmentText": "Alright, what's your insurance provider?",
-    #     }
-
     fb_id = req["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"]
 
     users[fb_id] = {
@@ -53,7 +35,7 @@ def set_insurance(req):
       "insurance": insurance
     }
 
-    plans = ["Aetna extreme plan", "Aetna boring plan", "Aetna super weird plan"]
+    plans = ["aetna awesome 1", "aetna week 2", "aetna poor 3"]
     # todo get plans 
 
     quick_replies = list(map(lambda plan: {
@@ -62,16 +44,26 @@ def set_insurance(req):
         "payload":plan
     }, plans))
 
-    # return {
-    #     "facebook": {
-    #         "text": "Alright. What plan do you have?",
-    #         "quick_replies": quick_replies
-    #     }
-    # }
-
-    return {
-        "fulfillmentText": "Alright. Here are some doctors by you."
+    obj = {
+        "fulfillmentText": "111 ...111?",
+        "payload": {
+            "fulfillmentText": "test mesasage?",
+            "facebook": {
+                "text": "Alright. What plan do you have?",
+                "quick_replies": quick_replies
+            }
+        },
+        "source": "server"
     }
+
+
+    return obj
+
+
+
+    # return {
+    #     "fulfillmentText": "Alright. Here are some doctors by you."
+    # }
 
     # return {
     #     "fulfillmentText": "fuckkers.",
