@@ -1,5 +1,10 @@
 import json
 import googlemaps
+import bs4
+import urllib.request
+import requests
+import numpy as np
+import pandas as pd
 
 gmaps = googlemaps.Client(key='AIzaSyBNAzQkOEm1dFe95yBBYI5aIufd1MwHQ9w')
 
@@ -26,6 +31,16 @@ def set_location(req):
     }
 
 
+def get_providers(insurance):
+    loc = 'https://api.zocdoc.com/directory/v1/insurances/autocomplete?text=aetna&insurance_type=health&directory_id=-1'
+    r = requests.get(loc)
+    insurance_providers = r.json()
+    filtered_insurance_providers = list(filter(lambda x: x['carrier_name'] == insurance and x["plan_id"] != None, insurance_providers))
+    # todo: sort by "rank"
+    df = pd.DataFrame(filtered_insurance_providers)
+    top_three = df.sort_values('plan_name')["plan_name"][0:3]
+    return top_three
+
 def set_insurance(req):
     fb_id = req["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"]
 
@@ -35,8 +50,7 @@ def set_insurance(req):
       "insurance": insurance
     }
 
-    plans = ["aetna awesome 1", "aetna week 2", "aetna poor 3"]
-    # todo get plans 
+    plans = get_providers(insurance)
 
     quick_replies = list(map(lambda plan: {
         "content_type":"text",
@@ -44,17 +58,18 @@ def set_insurance(req):
         "payload":plan
     }, plans))
 
+    text = "Alright. What plan do you have?"
+
     obj = {
-        "fulfillmentText": "111 ...111?",
+        "fulfillmentText": text,
         "payload": {
-            "fulfillmentText": "test mesasage?",
+            "fulfillmentText": text,
             "facebook": {
-                "text": "Alright. What plan do you have?",
+                "text": text,
                 "quick_replies": quick_replies
             }
         },
         "source": "server"
     }
-
 
     return obj
