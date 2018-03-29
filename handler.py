@@ -36,6 +36,8 @@ def get_providers(insurance):
     r = requests.get(loc)
     insurance_providers = r.json()
     filtered_insurance_providers = list(filter(lambda x: x['carrier_name'] == insurance and x["plan_id"] != None, insurance_providers))
+    if(len(filtered_insurance_providers) == 0):
+        return []
     # todo: sort by "rank"
     df = pd.DataFrame(filtered_insurance_providers)
     top_three = df.sort_values('plan_name')["plan_name"][0:3]
@@ -51,6 +53,13 @@ def set_insurance(req):
     }
 
     plans = get_providers(insurance)
+    if(len(plans) == 0):
+        return {
+            "fulfillmentText": "Couldn't find that provider. Try 'Aetna'.",
+            "followupEventInput": {
+                "name": "REQUEST_INSURANCE"
+            }
+        }
 
     quick_replies = list(map(lambda plan: {
         "content_type":"text",
