@@ -58,22 +58,3 @@ def set_insurance(req):
 
 
     return obj
-
-
-
-    # return {
-    #     "fulfillmentText": "Alright. Here are some doctors by you."
-    # }
-
-    # return {
-    #     "fulfillmentText": "fuckkers.",
-    #     "facebook": {
-    #         "text": "Sure thing, please share your current location",
-    #         "quick_replies": [
-    #             {
-    #                 "content_type": "location"
-    #             }
-    #         ]
-    #     }
-
-    # }
