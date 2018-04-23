@@ -38,16 +38,21 @@ app = Flask(__name__)
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    # print("Request:")
-    # print(json.dumps(req, indent=4))
-
     query = req["queryResult"]["intent"]["displayName"]
     print(query)
 
+    # print(json.dumps(req, indent=4))
+
     if query == "set_location":
         obj = handler.set_location(req)
+    elif query == "request_insurance":
+        obj = handler.request_insurance(req)
     elif query == "set_insurance":
         obj = handler.set_insurance(req)
+    elif query == "set_plan":
+        obj = handler.set_plan(req)
+    elif query == "get_doctors":
+        obj = handler.get_doctors(req)
     else:
         obj = {
             "fulfillmentText": "I'm a server response"    
