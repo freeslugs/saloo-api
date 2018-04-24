@@ -32,6 +32,7 @@ def set_location(req):
             insurance_carrier = users[fb_id]["insurance_carrier"]
             address = users[fb_id]["address"]
 
+            print(' > spawn new thread')
             threading.Thread(target=async_get_doctors, args=(fb_id, address, insurance_carrier, insurance_plan)).start()
 
             return {
@@ -114,6 +115,7 @@ def set_insurance(req):
 
 def async_get_doctors(fb_id, address, insurance_carrier, insurance_plan):
     global users
+    print(" > async_get_doctors")
     print ("%s %s %s %s %s" % (threading.current_thread(), str(fb_id), address, str(insurance_carrier), str(insurance_plan)))
 
     loc = 'https://www.zocdoc.com/search?address=' + address.replace(" ", "%20") + '&insurance_carrier=' + str(insurance_carrier) + '&day_filter=AnyDay&gender=-1&language=-1&offset=0&insurance_plan=' + str(insurance_plan) + '&reason_visit=75&after_5pm=false&before_10am=false&sees_children=false&sort_type=Default&dr_specialty=153&ip=160.39.9.117'
@@ -158,9 +160,10 @@ def get_doctors(req):
 
     if "doctors" not in users[fb_id]:
         print ("Start : %s" % time.ctime())
-        time.sleep( 2 )
+        time.sleep( 1 )
         print ("End : %s" % time.ctime())
         if "doctors" not in users[fb_id]:
+            print(" > havent found it yet")
             return {
                 "fulfillmentText": "Finding a doctor is taking longer than expected. Can you try again?",
                 "followupEventInput": {
@@ -168,6 +171,7 @@ def get_doctors(req):
                 }
             }
 
+    print(" > found it")
     doctors = users[fb_id]["doctors"]
 
     text = "Here are some nearby doctors covered by your insurance."

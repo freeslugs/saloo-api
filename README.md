@@ -1,26 +1,21 @@
-# Api.ai - sample webhook implementation in Python
+# Saloo
 
-This is a really simple webhook implementation that gets Api.ai classification JSON (i.e. a JSON output of Api.ai /query endpoint) and returns a fulfillment response.
+A user-friendly chatbot that connects you to doctors near you that are covered by your health insurance.
 
-More info about Api.ai webhooks could be found here:
-[Api.ai Webhook](https://docs.api.ai/docs/webhook)
+## How it works
 
-# Deploy to:
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+This is a facebook chatbot. We use DialogFlow (dialogflow.com, formally API.AI) to handle most of the conversational logic. 
 
-# What does the service do?
-It's a weather information fulfillment service that uses [Yahoo! Weather API](https://developer.yahoo.com/weather/).
-The services takes the `geo-city` parameter from the action, performs geolocation for the city and requests weather information from Yahoo! Weather public API. 
+Dialogflow is also connected to our Python Flask (flask.pocoo.org) server hosted on Heroku (heroku.com).
 
-The service packs the result in the Api.ai webhook-compatible response JSON and returns it to Api.ai.
+Our server connects to the Zocdoc (zocdoc.com) API to retreive doctor information. We then format the results and return them to the chatbot.
 
-## How to make contributions?
-Please read and follow the steps in the [CONTRIBUTING.md](CONTRIBUTING.md).
+### Server 
 
-## License
-See [LICENSE](LICENSE).
+Our server has two main files, app.py and handler.py. We copied the original layout from Dialogflow's docs. 
 
-## Terms
-Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/).
+App.py sets up the Flask app, parses the requests and directs them to the right functions in handler.py, formats the responses and returns the results to DialogFlow. 
 
-This is not an official Google product
+The handler.py file contains functions with API calls. When a user starts interacting, we save their fb_id (not their personal information, just a large integer) to session storage. This allows us to serve relevant information, in this case, doctors covered by their insurance. 
+
+
