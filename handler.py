@@ -27,7 +27,7 @@ def set_location(req):
     if fb_id in users:
         # print(json.dumps(users[fb_id], indent=4))
 
-        if "insurance_plan" in users[fb_id]:
+        if "insurance_carrier" in users[fb_id] and "insurance_plan" in users[fb_id]:
             insurance_plan = users[fb_id]["insurance_plan"]
             insurance_carrier = users[fb_id]["insurance_carrier"]
             address = users[fb_id]["address"]
