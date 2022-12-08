@@ -32,14 +32,14 @@ The handler.py file contains functions with API calls. When a user starts intera
 
 #### On the browser 
 
-1. Login to `messenger.com` with the username `amanmanik94@gmail.com` and the password `heysaloo123*`
+1. Login to `messenger.com` with the username and the password `heysaloo123*`
 2. Go to `https://www.messenger.com/t/heysaloo123`
 3. Start chatting with Saloo
 
 #### On mobile
 
 1. Download the full Facebook messenger app
-2. Open the app, login with the username `amanmanik94@gmail.com` and the password `heysaloo123*`
+2. Open the app, login with the username  and the password `heysaloo123*`
 3. Start chatting with Saloo
 
 ### Things you can say 
